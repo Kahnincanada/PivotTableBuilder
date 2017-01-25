@@ -1,8 +1,8 @@
 package com.TeamProject;
 
 /**
- * Created by Tony on 2017-01-24.
+ * Phase 1: load tab delimited or comma delimited file and create corresponding field using row 1
  */
 public class FileLoader {
-
+    
 }
