@@ -1,4 +1,4 @@
-package com.TeamProject.Loaders;
+package TuesdayProject.Loaders;
 import java.util.ArrayList;
 import java.io.*;
 /**
@@ -34,5 +34,4 @@ public class ReadFile {
         }
         return numberOfLines;
     }
-
 }
