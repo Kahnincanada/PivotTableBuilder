@@ -2,6 +2,7 @@ package TuesdayProject.Loaders;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Tony on 2017-01-28.
@@ -11,12 +12,14 @@ public class ArrayListMatrix extends ArrayList{
     private HashMap<String, ArrayList<String>> xAxis;                   //The title bar level
     private ArrayList<HashMap<String, ArrayList<String>>> movieList;    //The movie ID level
     private int numberOfMovies;
+    private ArrayList<UserRatingPair<Integer,Integer>> xAxisUserRating;
 
     public ArrayListMatrix(){
+        numberOfMovies=0;
         movieList = new ArrayList<>();
     }
 
-    public void AddMovie(int id, String field, ArrayList<String> detail){
+    public void add(int id, String field, ArrayList<String> detail){
         //Need to learn how to check the hashcode part.
         if(CheckNull(id)){
             xAxis = new HashMap<>();
@@ -25,15 +28,18 @@ public class ArrayListMatrix extends ArrayList{
         }
         movieList.get(id).put(field, detail);
     }
-    public boolean CheckNull(int id) {
+
+
+    //Private functions
+    private boolean CheckNull(int id) {
         return id >= movieList.size() || movieList.get(id) == null;
     }
-    boolean CheckFieldNull(int id, String field){
+    private boolean CheckFieldNull(int id, String field){
         if(CheckNull(id)) return true;
         return movieList.get(id).get(field) == null;
     }
 
-    public int Count(String field, String target){
+    private int Count(String field, String target){
         int counter = 0;
         for(HashMap<String, ArrayList<String>> movie : movieList){
             if(movie.get(field)!=null) {
@@ -47,16 +53,13 @@ public class ArrayListMatrix extends ArrayList{
         return counter;
     }
 
-    /*public boolean equals (Object object){
-        if (object == null || object.getClass() != getClass()) return false;
-        else if (this.toString().toLowerCase().equals(object.toString().toLowerCase())) return true;
-        return false;
-    }
-    */
-    public boolean containsItem(int id, String field, String item){
+    private boolean containsItem(int id, String field, String item){
         if(CheckFieldNull(id,field)) return false;
+        //This assumes that there is no duplication within each field of a movie.
         else{
-            for(String s : movieList.get(id).get(field)) {
+            ArrayList<String> get = movieList.get(id).get(field);
+            for (int i = 0, getSize = get.size(); i < getSize; i++) {
+                String s = get.get(i);
                 return s.toLowerCase().contains(item.toLowerCase());
             }
         }
@@ -69,16 +72,19 @@ public class ArrayListMatrix extends ArrayList{
     public void ModifyDetailData(int movieID, String field, String data){
         if(!CheckDataPresent(movieID,field.toLowerCase(),data.toLowerCase())) System.out.println("This data cannot be found");
         else{
-            movieList.get(movieID).get(field.toLowerCase()).indexOf(data)
+            subMovieList.get(movieID).get(field.toLowerCase()).indexOf(data)
         }
     }
     public Boolean CheckDataPresent(int movieID, String field, String data){
-        return movieList.get(movieID).get(field.toLowerCase()).contains(data.toLowerCase());
+        return subMovieList.get(movieID).get(field.toLowerCase()).contains(data.toLowerCase());
     }
     */
 
 
 
+
+
+    //Getters
     public ArrayList<String> getFieldDetails(int movieID, String field){
         //This contains the specific field of a movie, e.g. the actors, the director, etc
         return movieList.get(movieID).get(field);
@@ -86,12 +92,33 @@ public class ArrayListMatrix extends ArrayList{
 
     public HashMap<String, ArrayList<String>> get(int movieID){
         //This contains all information of a movie
-        return movieList.get(movieID);
+        if(!CheckNull(movieID)) return movieList.get(movieID);
+        else{
+            System.out.println("This movie does not exist! ALD.get()");
+            return null;
+        }
     }
 
     public ArrayList<HashMap<String, ArrayList<String>>> getAllMoviesInfo(){
         return movieList;
     }
+    public int getNumberOfMovies(){
+        numberOfMovies = movieList.size();
+        return numberOfMovies;
+    }
+    public List<String> getField(){
+        //Display available fields in the current movie list
+        if(!CheckNull(1)){
+            List<String> fieldList;
+            fieldList = new ArrayList<>(movieList.get(0).keySet());
+            return fieldList;
+        }
+        else{
+            System.out.println("This list is empty (getField) ");
+            return null;
+        }
+    }
+
 
 
 
