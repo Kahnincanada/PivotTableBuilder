@@ -14,7 +14,7 @@ public class MovieLoader extends Loader {
     protected void LoadField(ArrayList<String> dataFile, int numberOfField){
         LoadMovieField(dataFile,numberOfField);
     }
-    private void LoadMovieField(ArrayList<String> dataFile, int numberOfField){
+    protected void LoadMovieField(ArrayList<String> dataFile, int numberOfField){
         String field;
         ArrayList<String> detail = new ArrayList<>();
         String[] currLine;
@@ -24,7 +24,7 @@ public class MovieLoader extends Loader {
         currLine = dataFile.get(0).split(",");
         detail.add(0, currLine[numberOfField]);
         field = currLine[numberOfField]; //get the header name
-        pivotTable.AddMovie(0,field,detail);
+        importedRawData.add(0,field,detail);
         System.out.println(field + " header line added");
         int correctLineLength= currLine.length;
         detail = new ArrayList<>();
@@ -45,19 +45,20 @@ public class MovieLoader extends Loader {
                     //It is the last in the arraylist
                     detail.add(currLine[numberOfField]);
                     maxIndex=currID;
-                    pivotTable.AddMovie(prevID,field,detail);
-                    pivotTable.trimToSize();
+                    importedRawData.add(prevID,field,detail);
+                    importedRawData.trimToSize();
                 }
             }
             else{
-                pivotTable.AddMovie(prevID,field,detail);
+                importedRawData.add(prevID,field,detail);
 
                 if( i == dataFile.size()-1) {
                     //It is the last in the arrayList
                     detail = new ArrayList<>();
                     detail.add(currLine[numberOfField]);
-                    pivotTable.AddMovie(currID, field, detail);
-                    pivotTable.trimToSize();
+                    maxIndex=currID;
+                    importedRawData.add(currID, field, detail);
+                    importedRawData.trimToSize();
                 }
                 else{
                     if(prevID+1!=currID) {
@@ -65,7 +66,7 @@ public class MovieLoader extends Loader {
                         while (prevID != currID - 1) {
                             detail = new ArrayList<>();
                             detail.add("NA");
-                            pivotTable.AddMovie((prevID+1),field,detail);
+                            importedRawData.add((prevID+1),field,detail);
                             prevID++;
                         }
                     }

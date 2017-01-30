@@ -8,7 +8,12 @@ import java.util.HashMap;
  * Created by Tony on 2017-01-28.
  */
 public class Loader {
-    protected ArrayListMatrix pivotTable;
+    protected ArrayListMatrix importedRawData;  //movie list
+    protected ArrayList<String> tagInfo;        //info of all tags
+    protected HashMap<Integer, HashMap<Integer, Double>> userListWithRating;   //user rating
+    protected ArrayList<HashMap<Integer,Double>> movieListWithRating;
+
+
     protected HashMap<String, String> filePath;
     protected String[] fields;
     protected String[] absPaths;
@@ -30,7 +35,7 @@ public class Loader {
         };
         fields = new String[] {"actor", "director", "country", "genre", "location", "movietag", "tag", "userrating", "movie"};
         filePath = new HashMap<>();
-        pivotTable = new ArrayListMatrix();
+        importedRawData = new ArrayListMatrix();
         for (int i = 0; i < fields.length; i++) filePath.put(fields[i], absPaths[i]);
 
     }
@@ -41,20 +46,22 @@ public class Loader {
             for (String tar : targets)
                 try {
                     loadTerm(tar);
-                    System.out.println(tar + " added to pivot table");
+                    System.out.println(tar + " is added to raw data file. (Loader Load)");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
         }
         //need change to DB path somehow later
     }
-    void loadTerm(String target) throws IOException{
-        String targetPath = FindPath(target.toLowerCase());
+    protected void loadTerm(String target) throws IOException{
+
         ArrayList<String> dataFile = new ArrayList<>();
 
         try {
-            ReadFile rf = new ReadFile(targetPath);
+            ReadFile rf = new ReadFile(FindPath(target.toLowerCase()));
             dataFile = rf.OpenFile();
+            System.out.println("Loading "+ target);
+            //System.out.println(dataFile.get(2)); //debug
         }catch (Exception e){
             System.out.println("LoadTerm error" + e.getMessage());
         }
@@ -62,7 +69,7 @@ public class Loader {
         String[] titleBar = dataFile.get(0).split(",");
         for(int i=1; i<titleBar.length; i++) LoadField(dataFile, i);
     }
-    String FindPath(String target) {
+    protected String FindPath(String target) {
         if (filePath.containsKey(target.toLowerCase())) {
             return filePath.get(target.toLowerCase());
         } else {
@@ -90,10 +97,18 @@ public class Loader {
 
 
     //Getters
-    public ArrayListMatrix getPivotTable(){return pivotTable;}
+    public ArrayListMatrix getImportedRawData(){return importedRawData;}
     public HashMap<String,String> getAbsFilePaths() {return filePath;}
     public int getMaxIndex() {return maxIndex;}
+    public ArrayList<String> getTagInfo() {
+        return tagInfo;
+    }
+    public ArrayList<HashMap<Integer, Double>> getMovieListWithRating() {
+        return movieListWithRating;
+    }
 
-
+    public HashMap<Integer, HashMap<Integer, Double>> getUserListWithRating() {
+        return userListWithRating;
+    }
 }
 
