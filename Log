@@ -2,4 +2,4 @@ date,start time,stop time,description
 Jan 25,0,2,create Github project, search for free SQL server, initialize database.
 Jan 27,21,23,create loaders for different database as separated functions, created actorloader
 Jan 29,0,3,Combine loader functions as one single function that can load different database
-Jan 30,10,19, All basic loader files version 1 have been completed, All data file can be withdrawn from csv files 
+Jan 30,10,19, All basic loader files version 1 have been completed, All data file can be withdrawn from csv files
