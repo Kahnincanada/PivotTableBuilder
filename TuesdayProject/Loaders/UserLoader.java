@@ -8,35 +8,26 @@ import java.util.ArrayList;
  * Created by Tony on 2017-01-29.
  */
 public class UserLoader extends Loader {
-
     HashMap<Integer,Double> subMovieList;
     HashMap<Integer,Double> subUserList;
     int movieListMaxIndex; // size-1
 
-
     public UserLoader(){
         userListWithRating= new HashMap<>();
         movieListWithRating = new ArrayList<>();
-        //subMovieList = new HashMap<>();
-        //subMovieList.put(-2,-2); // -2,-2 means movie ID 0;
-        //movieListWithRating.add(0, subMovieList);
         movieListMaxIndex=0;
     }
-
     protected void LoadField(ArrayList<String> dataFile, int numberOfField){
-        System.out.println("userLoad loadField initialized");
+        //System.out.println("userLoad loadField initialized"); // debug
         LoadUserField(dataFile);
     }
     private void LoadUserField(ArrayList<String> dataFile) {
-
         String[] currLine;
-
         for (String s : dataFile.subList(1, dataFile.size())) {
             currLine = s.split(",");
             int userID = Integer.parseInt(currLine[0]);
             int movieID = Integer.parseInt(currLine[1]);
             double score = Double.parseDouble(currLine[2]);
-
             while (movieListMaxIndex < movieID) {
                 //System.out.println("empty line has been added"); //debug
                 subMovieList = new HashMap<>();
@@ -53,20 +44,15 @@ public class UserLoader extends Loader {
                 movieListMaxIndex++;
             } else {
                 movieListWithRating.get(movieID).put(userID, score);
-                if (movieListWithRating.get(movieID).containsKey(-1)) {
-                    movieListWithRating.get(movieID).remove(-1);
-                }
+                if (movieListWithRating.get(movieID).containsKey(-1)) movieListWithRating.get(movieID).remove(-1);
+                //remove the default -1,-1
             }
             if(!userListWithRating.containsKey(userID)){
                 subUserList = new HashMap<>();
                 subUserList.put(movieID,score);
                 userListWithRating.put(userID,subUserList);
             }
-            else {
-                userListWithRating.get(userID).put(movieID, score);
-            }
+            else {userListWithRating.get(userID).put(movieID, score);}
         }
     }
-
-
 }

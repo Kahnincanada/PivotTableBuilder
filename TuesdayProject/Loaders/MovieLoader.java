@@ -6,31 +6,27 @@ import java.util.ArrayList;
  * Created by Tony on 2017-01-29.
  */
 public class MovieLoader extends Loader {
-
-
+    private ArrayList<String> detail;
+    private String field;
+    private String[] currLine;
     public MovieLoader() {
-
+        detail = new ArrayList<>();
     }
     protected void LoadField(ArrayList<String> dataFile, int numberOfField){
         LoadMovieField(dataFile,numberOfField);
     }
     protected void LoadMovieField(ArrayList<String> dataFile, int numberOfField){
-        String field;
-        ArrayList<String> detail = new ArrayList<>();
-        String[] currLine;
-
         //set line 0 which consists of headers
-
         currLine = dataFile.get(0).split(",");
         detail.add(0, currLine[numberOfField]);
         field = currLine[numberOfField]; //get the header name
         importedRawData.add(0,field,detail);
-        System.out.println(field + " header line added");
+
+        //System.out.println(field + " header line added"); //debug
         int correctLineLength= currLine.length;
         detail = new ArrayList<>();
 
         //following lines
-
         int prevID=1;//this movie ID for ALM
         int currID;
         for (int i=1; i<dataFile.size();i++) {
@@ -41,7 +37,7 @@ public class MovieLoader extends Loader {
                 if(currLine.length!=correctLineLength) detail.add("NA");
                 else detail.add(currLine[numberOfField]);
 
-                if ( i == (dataFile.size()-1)){
+                if( i == (dataFile.size()-1)){
                     //It is the last in the arraylist
                     detail.add(currLine[numberOfField]);
                     maxIndex=currID;
@@ -51,7 +47,6 @@ public class MovieLoader extends Loader {
             }
             else{
                 importedRawData.add(prevID,field,detail);
-
                 if( i == dataFile.size()-1) {
                     //It is the last in the arrayList
                     detail = new ArrayList<>();
@@ -72,7 +67,7 @@ public class MovieLoader extends Loader {
                     }
                     prevID++;
                     detail = new ArrayList<>();
-                    //System.out.println(prevID);
+                    //System.out.println(prevID); //debug
                     if(currLine.length!=correctLineLength) detail.add("NA");
                     else detail.add(currLine[numberOfField]);
                 }
