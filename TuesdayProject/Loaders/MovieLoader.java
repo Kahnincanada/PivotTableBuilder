@@ -9,14 +9,13 @@ public class MovieLoader extends Loader {
     private ArrayList<String> detail;
     private String field;
     private String[] currLine;
-    public MovieLoader() {
-        detail = new ArrayList<>();
-    }
+    public MovieLoader() {}
     protected void LoadField(ArrayList<String> dataFile, int numberOfField){
         LoadMovieField(dataFile,numberOfField);
     }
     protected void LoadMovieField(ArrayList<String> dataFile, int numberOfField){
         //set line 0 which consists of headers
+        detail = new ArrayList<>();
         currLine = dataFile.get(0).split(",");
         detail.add(0, currLine[numberOfField]);
         field = currLine[numberOfField]; //get the header name

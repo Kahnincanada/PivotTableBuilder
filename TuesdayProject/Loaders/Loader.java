@@ -20,7 +20,7 @@ public class Loader {
 
     public Loader(){
         absPaths = new String[]{
-                //Temporarily using absolute path. Will be linked to a SQL db
+                //Temporarily using absolute path. Will be linked to a mySQL db
                 "/Users/Tony/IdeaProjects/PivotBuilder/src/hetrec2011-movielens-2k-v2/movie_actors.csv",    //pathActor
                 "/Users/Tony/IdeaProjects/PivotBuilder/src/hetrec2011-movielens-2k-v2/movie_directors.csv", //pathDirector
                 "/Users/Tony/IdeaProjects/PivotBuilder/src/hetrec2011-movielens-2k-v2/movie_countries.csv", //pathCountry
@@ -34,6 +34,27 @@ public class Loader {
         filePath = new HashMap<>();
         importedRawData = new ArrayListMatrix();
         for (int i = 0; i < fields.length; i++) filePath.put(fields[i], absPaths[i]);
+    }
+    public void Load(String target){
+        target = target.toLowerCase();
+        switch (target){
+            case "tag" : {
+                try {
+                    loadTerm(target);
+                } catch (IOException e) {
+                    System.out.println("Tag loading error (Loader.Load())");
+                    e.printStackTrace();
+                }
+            }
+            case "userRating" :{
+                try{
+                    loadTerm(target);
+                } catch (IOException e){
+                    System.out.println("user rating loading error (Loader.Load())");
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     public void Load(ArrayList<String> targets) {
         if (!checkAllValid(targets)) System.out.println("Not all field are valid (Load)");
@@ -88,4 +109,7 @@ public class Loader {
         return movieListWithRating;
     }
     public HashMap<Integer, HashMap<Integer, Double>> getUserListWithRating() {return userListWithRating;}
+    public String getTag(int tagID){
+        return tagInfo.get(tagID);
+    }
 }

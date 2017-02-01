@@ -40,15 +40,9 @@ public class ArrayListMatrix extends ArrayList{
         }
         return false;
     }
-    private int Count(String field, String target){
+    public int Count(String field, String target){
         int counter = 0;
-        for(HashMap<String, ArrayList<String>> movie : movieList){
-            if(containsItem(movieList.indexOf(movie), field, target)) counter++;
-            else{
-                System.out.println("This field is invalid ! (Count)");
-                return 0;
-                }
-            }
+        for(HashMap<String, ArrayList<String>> movie : movieList) if(containsItem(movieList.indexOf(movie), field, target)) counter++;
         return counter;
     }
 
