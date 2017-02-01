@@ -1,21 +1,12 @@
 package TuesdayProject;
 
-import TuesdayProject.Functions.*;
-import TuesdayProject.Loaders.*;
+import TuesdayProject.UnitTests.PivotTableTests;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
-
-        Test t = new Test();
-
-
-
-
-
+        PivotTableTests ptv = new PivotTableTests();
+        ptv.ChooseSchemaTest();
     }
 }

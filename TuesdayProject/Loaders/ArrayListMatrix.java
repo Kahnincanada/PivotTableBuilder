@@ -31,7 +31,12 @@ public class ArrayListMatrix extends ArrayList{
 
     private boolean CheckNull(int id) {return id >= movieList.size() || movieList.get(id) == null;}
 
-    private boolean containsItem(int id, String field, String item){
+    public int Count(String field, String target){
+        int counter = 0;
+        for(HashMap<String, ArrayList<String>> movie : movieList) if(containsItem(movieList.indexOf(movie), field, target)) counter++;
+        return counter;
+    }
+    public boolean containsItem(int id, String field, String item){
         if(CheckNull(id) || CheckFieldNull(id,field)) return false;
             //This assumes that there is no duplication within each field of a movie.
         else{
@@ -40,24 +45,13 @@ public class ArrayListMatrix extends ArrayList{
         }
         return false;
     }
-    private int Count(String field, String target){
-        int counter = 0;
-        for(HashMap<String, ArrayList<String>> movie : movieList){
-            if(containsItem(movieList.indexOf(movie), field, target)) counter++;
-            else{
-                System.out.println("This field is invalid ! (Count)");
-                return 0;
-                }
-            }
-        return counter;
-    }
+
 
     //Getters
     public ArrayList<String> getFieldDetails(int movieID, String field){
         //This contains the specific field of a movie, e.g. the actors, the director, etc
         return movieList.get(movieID).get(field);
     }
-
     public HashMap<String, ArrayList<String>> get(int movieID){
         //This contains all information of a movie
         if(!CheckNull(movieID)) return movieList.get(movieID);
